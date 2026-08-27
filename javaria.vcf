@@ -4,7 +4,8 @@ N:Javaria;;;;
 FN:Javaria
 ORG:Bizskoop
 TITLE:Immigration Consultant
-TEL;TYPE=CELL,VOICE:+601126690092
+TEL;TYPE=CELL,VOICE,PREF:+601126690092
+TEL;TYPE=WORK,VOICE:+601124244993
 EMAIL;TYPE=INTERNET,WORK:operations@bizskoop.com
 URL:https://bizskoop.com
 ADR;TYPE=WORK:;;;Kuala Lumpur;;;Malaysia

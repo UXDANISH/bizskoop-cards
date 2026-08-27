@@ -4,7 +4,8 @@ N:Ali;Syed Muhammad;;;
 FN:Syed Muhammad Ali
 ORG:Bizskoop
 TITLE:Key Account Manager (II)
-TEL;TYPE=CELL,VOICE:+601129505945
+TEL;TYPE=CELL,VOICE,PREF:+601129505945
+TEL;TYPE=WORK,VOICE:+601124244993
 EMAIL;TYPE=INTERNET,WORK:sales@bizskoop.com
 URL:https://bizskoop.com
 ADR;TYPE=WORK:;;;Kuala Lumpur;;;Malaysia
