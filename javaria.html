@@ -95,6 +95,19 @@ a{color:inherit}
 .btn.line:hover{background:var(--ink);color:var(--paper)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 
+/* ---- scannable code on screen ---- */
+.showqr{
+  border-top:1px solid var(--rule);padding:22px 0 4px;text-align:center;
+}
+.showqr img{
+  width:190px;height:190px;image-rendering:pixelated;
+  background:#fff;padding:9px;border-radius:2px;
+}
+.showqr-cap{
+  font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--stamp);margin-top:11px;
+}
+
 /* ---- MRZ ---- */
 .mrz{
   border-top:1px solid var(--rule);
@@ -117,12 +130,12 @@ a{color:inherit}
 }
 .dir p.sub{font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:30px}
 .entry{
-  display:flex;gap:16px;align-items:center;text-decoration:none;
-  border-top:1px solid rgba(234,239,242,.2);padding:16px 0;
+  display:flex;gap:18px;align-items:center;text-decoration:none;
+  border-top:1px solid rgba(234,239,242,.2);padding:20px 0;
 }
 .entry:last-of-type{border-bottom:1px solid rgba(234,239,242,.2)}
 .entry:hover .en{color:#fff}
-.entry img{width:80px;height:80px;background:#fff;padding:3px;border-radius:2px;flex:none}
+.entry img{width:132px;height:132px;background:#fff;padding:7px;image-rendering:pixelated;border-radius:2px;flex:none}
 .en{display:block;font-family:"Bodoni Moda",Didot,serif;font-size:19px;line-height:1.2}
 .er{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-top:5px}
 .note{font-size:11px;line-height:1.9;opacity:.55;margin-top:28px;letter-spacing:.02em}
@@ -175,6 +188,8 @@ a{color:inherit}
       <a class="btn line" href="mailto:operations@bizskoop.com">Email</a>
     </div>
   </div>
+
+  <div class="showqr"><img src="qr/javaria-page.png" alt=""><div class="showqr-cap">Let someone scan this to open this card</div></div>
 
   <div class="mrz">P&lt;MYSJAVARIA&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>601126690092&lt;MYS&lt;IMMIGR&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>
 </main>

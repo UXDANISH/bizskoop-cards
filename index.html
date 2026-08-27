@@ -95,6 +95,19 @@ a{color:inherit}
 .btn.line:hover{background:var(--ink);color:var(--paper)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 
+/* ---- scannable code on screen ---- */
+.showqr{
+  border-top:1px solid var(--rule);padding:22px 0 4px;text-align:center;
+}
+.showqr img{
+  width:190px;height:190px;image-rendering:pixelated;
+  background:#fff;padding:9px;border-radius:2px;
+}
+.showqr-cap{
+  font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--stamp);margin-top:11px;
+}
+
 /* ---- MRZ ---- */
 .mrz{
   border-top:1px solid var(--rule);
@@ -117,12 +130,12 @@ a{color:inherit}
 }
 .dir p.sub{font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:30px}
 .entry{
-  display:flex;gap:16px;align-items:center;text-decoration:none;
-  border-top:1px solid rgba(234,239,242,.2);padding:16px 0;
+  display:flex;gap:18px;align-items:center;text-decoration:none;
+  border-top:1px solid rgba(234,239,242,.2);padding:20px 0;
 }
 .entry:last-of-type{border-bottom:1px solid rgba(234,239,242,.2)}
 .entry:hover .en{color:#fff}
-.entry img{width:80px;height:80px;background:#fff;padding:3px;border-radius:2px;flex:none}
+.entry img{width:132px;height:132px;background:#fff;padding:7px;image-rendering:pixelated;border-radius:2px;flex:none}
 .en{display:block;font-family:"Bodoni Moda",Didot,serif;font-size:19px;line-height:1.2}
 .er{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-top:5px}
 .note{font-size:11px;line-height:1.9;opacity:.55;margin-top:28px;letter-spacing:.02em}
@@ -139,26 +152,27 @@ a{color:inherit}
   <div class="crest" style="text-align:left;margin-bottom:26px">
     <b>BIZSKOOP</b><span>Immigration &amp; Business Advisory</span></div>
   <h1>Team contacts</h1>
-  <p class="sub">Scan, tap, or print</p>
+  <p class="sub">Scan a code to open that person's card</p>
   <a class="entry" href="syed-ammar-ali.html">
-      <img src="qr/syed-ammar-ali-contact.png" alt="QR code for Syed Ammar Ali">
+      <img src="qr/syed-ammar-ali-page.png" alt="QR code for Syed Ammar Ali">
       <span><span class="en">Syed Ammar Ali</span>
       <span class="er">Key Account Manager (I) · Kuala Lumpur</span></span>
     </a><a class="entry" href="syed-muhammad-ali.html">
-      <img src="qr/syed-muhammad-ali-contact.png" alt="QR code for Syed Muhammad Ali">
+      <img src="qr/syed-muhammad-ali-page.png" alt="QR code for Syed Muhammad Ali">
       <span><span class="en">Syed Muhammad Ali</span>
       <span class="er">Key Account Manager (II) · Kuala Lumpur</span></span>
     </a><a class="entry" href="javaria.html">
-      <img src="qr/javaria-contact.png" alt="QR code for Javaria">
+      <img src="qr/javaria-page.png" alt="QR code for Javaria">
       <span><span class="en">Javaria</span>
       <span class="er">Immigration Consultant · Kuala Lumpur</span></span>
     </a><a class="entry" href="zul-alif.html">
-      <img src="qr/zul-alif-contact.png" alt="QR code for Muhammad Zul Alif Bin Azizul">
+      <img src="qr/zul-alif-page.png" alt="QR code for Muhammad Zul Alif Bin Azizul">
       <span><span class="en">Muhammad Zul Alif Bin Azizul</span>
       <span class="er">Immigration Consultant · Penang</span></span>
     </a>
-  <p class="note">Each QR above stores the full contact inside the code itself —
-  scanning it saves the person to your phone with no internet connection and no
-  link that can expire. Tap a name for the full card.</p>
+  <p class="note">Scanning a code above opens that person's card, where the visitor
+  can save the contact, message on WhatsApp or send an email. Tap a name to open the
+  same card yourself. A camera cannot read a code shown on the same phone it is
+  scanning with — use a second device, or print the sheet.</p>
 </div>
 </body></html>
