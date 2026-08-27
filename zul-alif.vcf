@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Azizul;Muhammad Zul Alif Bin;;;
+FN:Muhammad Zul Alif Bin Azizul
+ORG:Bizskoop
+TITLE:Immigration Consultant
+TEL;TYPE=CELL,VOICE:+60195945456
+EMAIL;TYPE=INTERNET,WORK:operations.penang@bizskoop.com
+URL:https://bizskoop.com
+ADR;TYPE=WORK:;;;Penang;;;Malaysia
+END:VCARD

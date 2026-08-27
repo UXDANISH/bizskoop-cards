@@ -1,0 +1,191 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QR generator — Bizskoop</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0C2237;--paper:#EAEFF2;--rule:#B9C9D4;--stamp:#7A2E4A;--seal:#1E6F63}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--paper);font-family:"IBM Plex Mono",monospace;
+     padding:28px 18px 60px;display:flex;flex-direction:column;align-items:center}
+.wrap{width:100%;max-width:520px}
+h1{font-family:"Bodoni Moda",Didot,serif;font-weight:600;font-size:34px;line-height:1.05}
+.sub{font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin:8px 0 28px}
+label{display:block;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;
+      color:#D98FA8;margin:18px 0 6px}
+input,select{width:100%;padding:12px 13px;font:inherit;font-size:14px;
+  background:transparent;color:var(--paper);border:1px solid rgba(234,239,242,.28);border-radius:2px}
+input:focus,select:focus{outline:2px solid var(--seal);outline-offset:1px;border-color:transparent}
+select{appearance:none}
+select option{background:var(--ink)}
+button{width:100%;margin-top:26px;padding:15px;font:inherit;font-size:11px;
+  letter-spacing:.2em;text-transform:uppercase;cursor:pointer;
+  background:var(--paper);color:var(--ink);border:1px solid var(--paper);border-radius:2px}
+button:hover{background:var(--stamp);border-color:var(--stamp);color:var(--paper)}
+button.line{background:transparent;color:var(--paper);margin-top:9px}
+button.line:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+#out{display:none;margin-top:34px;padding-top:26px;border-top:1px solid rgba(234,239,242,.2)}
+#qr{background:#fff;padding:16px;border-radius:2px;display:inline-block;line-height:0}
+#qr canvas,#qr img{display:block;width:100%;max-width:300px;height:auto;image-rendering:pixelated}
+.meta{font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.55;margin-top:14px}
+.hint{font-size:11px;line-height:1.9;opacity:.55;margin-top:26px}
+.err{color:#F2A4B8;font-size:12px;line-height:1.8;margin-top:20px}
+#link-field{display:none}
+</style></head><body>
+<div class="wrap">
+  <h1>QR generator</h1>
+  <p class="sub">Runs entirely in this browser · nothing uploaded</p>
+
+  <label for="mode">What should the QR do</label>
+  <select id="mode">
+    <option value="vcard">Save the contact straight to the phone (works offline)</option>
+    <option value="url">Open a web page</option>
+  </select>
+
+  <div id="person">
+    <label for="f-name">Full name</label>
+    <input id="f-name" value="" placeholder="Syed Ammar Ali">
+    <label for="f-role">Designation</label>
+    <input id="f-role" placeholder="Key Account Manager (I)">
+    <label for="f-org">Company</label>
+    <input id="f-org" value="Bizskoop">
+    <label for="f-phone">Mobile</label>
+    <input id="f-phone" placeholder="+60 14-601 8950" inputmode="tel">
+    <label for="f-email">Email</label>
+    <input id="f-email" placeholder="partnerships@bizskoop.com" inputmode="email">
+    <label for="f-office">City</label>
+    <input id="f-office" placeholder="Kuala Lumpur">
+  </div>
+
+  <div id="link-field">
+    <label for="f-url">Address to open</label>
+    <input id="f-url" placeholder="https://bizskoop.com/team/ammar" inputmode="url">
+  </div>
+
+  <button id="go">Generate</button>
+  <div id="msg" class="err"></div>
+
+  <div id="out">
+    <div id="qr"></div>
+    <p class="meta" id="meta"></p>
+    <button class="line" id="dl-png">Download PNG</button>
+    <button class="line" id="dl-vcf">Download .vcf</button>
+  </div>
+
+  <p class="hint">Print at 3.5&nbsp;cm or larger. A contact QR holds the whole card
+  inside the pattern, so it keeps working with no internet and no service behind it.
+  A link QR is smaller and simpler, but only lasts as long as the address does.</p>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const msg = $('msg');
+
+/* Load the QR library, with a second source in case the first is unreachable. */
+function loadLib(){
+  const urls = [
+    'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js',
+    'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js',
+    'https://unpkg.com/qrcodejs@1.0.0/qrcode.min.js'
+  ];
+  return urls.reduce((chain, url) => chain.catch(() => new Promise((ok, fail) => {
+    const s = document.createElement('script');
+    s.src = url; s.onload = () => window.QRCode ? ok() : fail(); s.onerror = fail;
+    document.head.appendChild(s);
+  })), Promise.reject());
+}
+let libReady = loadLib();
+libReady.catch(() => {});  // handled on click instead
+
+const digits = s => (s || '').replace(/\D/g, '');
+
+function buildVcard(p){
+  const bits = p.name.trim().split(/\s+/);
+  const last = bits.pop(), first = bits.join(' ');
+  return [
+    'BEGIN:VCARD','VERSION:3.0',
+    `N:${last};${first};;;`,
+    `FN:${p.name}`,
+    p.org   ? `ORG:${p.org}` : '',
+    p.role  ? `TITLE:${p.role}` : '',
+    p.phone ? `TEL;TYPE=CELL,VOICE:+${digits(p.phone)}` : '',
+    p.email ? `EMAIL;TYPE=INTERNET,WORK:${p.email}` : '',
+    p.office? `ADR;TYPE=WORK:;;;${p.office};;;` : '',
+    'END:VCARD'
+  ].filter(Boolean).join('\r\n') + '\r\n';
+}
+
+function save(blob, filename){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+$('mode').onchange = e => {
+  const url = e.target.value === 'url';
+  $('link-field').style.display = url ? 'block' : 'none';
+  $('person').style.display = url ? 'none' : 'block';
+  $('dl-vcf').style.display = url ? 'none' : 'block';
+};
+
+let current = null;
+
+$('go').onclick = async () => {
+  msg.textContent = '';
+  const mode = $('mode').value;
+  const p = {
+    name:   $('f-name').value.trim(),
+    role:   $('f-role').value.trim(),
+    org:    $('f-org').value.trim(),
+    phone:  $('f-phone').value.trim(),
+    email:  $('f-email').value.trim(),
+    office: $('f-office').value.trim()
+  };
+
+  let data, slug;
+  if (mode === 'url'){
+    data = $('f-url').value.trim();
+    if (!/^https?:\/\/.+/.test(data)){
+      msg.textContent = 'Enter a full address starting with https://';
+      return;
+    }
+    slug = 'link';
+  } else {
+    if (!p.name){ msg.textContent = 'A full name is needed to build the contact.'; return; }
+    data = buildVcard(p);
+    slug = p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
+  try { await libReady; }
+  catch { msg.textContent = 'The QR library could not load. Connect to the internet once, or use build.py instead — that works fully offline.'; return; }
+
+  $('qr').innerHTML = '';
+  new QRCode($('qr'), {
+    text: data, width: 640, height: 640,
+    colorDark: '#0C2237', colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  current = { data, slug, mode };
+  $('out').style.display = 'block';
+  $('meta').textContent = mode === 'url'
+    ? 'Points to ' + data
+    : 'Holds ' + data.length + ' characters — the full contact, no link involved';
+  $('out').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+};
+
+$('dl-png').onclick = () => {
+  const c = $('qr').querySelector('canvas');
+  if (c) return c.toBlob(b => save(b, current.slug + '-qr.png'), 'image/png');
+  const img = $('qr').querySelector('img');
+  if (img) { window.open(img.src, '_blank'); }
+};
+
+$('dl-vcf').onclick = () => {
+  if (!current || current.mode !== 'vcard') return;
+  save(new Blob([current.data], { type: 'text/vcard;charset=utf-8' }), current.slug + '.vcf');
+};
+</script>
+</body></html>
