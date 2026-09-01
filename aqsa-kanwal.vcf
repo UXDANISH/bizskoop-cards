@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Kanwal;Aqsa;;;
+FN:Aqsa Kanwal
+ORG:Bizskoop
+TITLE:Administration
+TEL;TYPE=CELL,VOICE,PREF:+60173649085
+TEL;TYPE=WORK,VOICE:+601124244993
+EMAIL;TYPE=INTERNET,WORK:admin@bizskoop.com
+URL:https://bizskoop.com
+ADR;TYPE=WORK:;;;Kuala Lumpur;;;Malaysia
+END:VCARD
