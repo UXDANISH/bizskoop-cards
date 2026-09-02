@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Murugan;Thaarani;;;
+FN:Thaarani Murugan
+ORG:Bizskoop
+TITLE:Immigration Specialist (Penang Branch)
+TEL;TYPE=CELL,VOICE,PREF:+601111495703
+TEL;TYPE=WORK,VOICE:+601124244993
+EMAIL;TYPE=INTERNET,WORK:operations.penang@bizskoop.com
+URL:https://bizskoop.com
+ADR;TYPE=WORK:;;;Penang;;;Malaysia
+END:VCARD
