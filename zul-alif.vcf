@@ -6,7 +6,7 @@ ORG:Bizskoop
 TITLE:Immigration Consultant
 TEL;TYPE=CELL,VOICE,PREF:+60195945456
 TEL;TYPE=WORK,VOICE:+601124244993
-EMAIL;TYPE=INTERNET,WORK:operations.penang@bizskoop.com
+EMAIL;TYPE=INTERNET,WORK:operations2@bizskoop.com
 URL:https://bizskoop.com
 ADR;TYPE=WORK:;;;Penang;;;Malaysia
 END:VCARD
